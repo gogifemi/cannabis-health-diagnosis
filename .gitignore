@@ -162,6 +162,8 @@ cython_debug/
 #.idea/
 
 # Data folder
-/Cannavizion-2
+models/canhealth_VGG16.h5
+models/canhealth_VGG16.keras
 /data
 data.py
+/models
