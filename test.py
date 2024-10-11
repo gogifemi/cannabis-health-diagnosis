@@ -1,5 +1,28 @@
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
 import streamlit as st
+import seaborn as sns
+import plotly.express as px
+import pickle
 
-st.write('Hi')
-st.header('Simple demo')
-st.image("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mMWuzEPKzws6n-oi_7pAyQHaEo%26pid%3DApi&f=1&ipt=d16283a6afa2a079f31feead96b17afb773e3b58178aedc874f4b86a0926545f&ipo=images")
+st.title('Welcome to the cannabis plant disease detection app!')
+st.write("*Coming soon..*")
+
+
+
+
+
+with open("models/canhealth_model.pkl", "rb") as f:
+    model = pickle.load(f)
+
+st.title('Try the demo detecter for your cannabis plant!')
+
+# Upload image as input
+img_variable = st.file_uploader('Upload your plant picture',type=['png','jpg','svg'])
+from PIL import Image
+if img_variable is not None:
+    st.image(Image.open(img_variable))
+
+
+
