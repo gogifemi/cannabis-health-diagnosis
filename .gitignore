@@ -167,3 +167,5 @@ models/canhealth_VGG16.keras
 /data
 data.py
 /models
+
+.streamlit_venv
