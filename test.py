@@ -9,10 +9,6 @@ import pickle
 st.title('Welcome to the cannabis plant disease detection app!')
 st.write("*Coming soon..*")
 
-
-
-
-
 with open("models/canhealth_model.pkl", "rb") as f:
     model = pickle.load(f)
 
