@@ -1,46 +1,66 @@
-import pickle
-import numpy as np
-from keras_preprocessing.image import load_img, img_to_array
+from fastai.vision.all import load_learner, PILImage
+from keras_preprocessing.image import load_img
 
 # Load the model
-with open("models/canhealth_model.pkl", "rb") as f:
-    model = pickle.load(f)
+model = load_learner("models/canhealth_model.pkl")
 
-# Define the class names
-class_names = [
-    'Aphids',
-    'Botrytis',
-    'Dehydration',
-    'Healthy',
-    'Leaf Miners',
-    'Nitrogen Deficiency',
-    'Nutrient Burn',
-    'Overwatering',
-    'PH Fluctuation',
-    'Phosphorus Deficiency',
-    'Potassium Deficiency',
-    'Powdery Mildew',
-    'Septoria']
+# Load the image
+img = load_img("data/test/Septoria/00_septoria_yellowleaf_test.jpg")
 
-# Load an image from the test set
-img = load_img("data/test/Septoria/00_septoria_yellowleaf_test.jpg", target_size=(224, 224))
-
-# Convert the image to an array
-img_array = img_to_array(img)
-print(img_array)
-
-print(img_array.shape)
-
-img_array = np.reshape(img_array, (1, 255, 255, 3))
+# Convert to FastAI's PILImage format
+img = PILImage.create(img)
 
 # Get the model predictions
-predictions = model.predict(img_array)
-print("predictions:", predictions)
+pred_class, pred_idx, outputs = model.predict(img)
 
-# Get the class index with the highest predicted probability
-class_index = np.argmax(predictions[0])
+print(f"The image is predicted to be '{pred_class}'.")
 
-# Get the predicted class label
-predicted_label = class_names[class_index]
+# from fastai.vision.all import load_learner, PILImage
+# from keras_preprocessing.image import load_img
+# import pathlib
+# from pathlib import Path
+# import numpy as np
 
-print("The image is predicted to be '{}'.".format(predicted_label))
+# # Force FastAI to use WindowsPath instead of PosixPath
+# pathlib.PosixPath = pathlib.WindowsPath
+
+# # Load the model
+# # model_path = str(Path(r"C:\Users\admin\dataScienceBootcamp\cannabis-health-diagnosis\models\canhealth_model.pkl"))
+# # model = load_learner(model_path)
+# model = load_learner("models/canhealth_model.pkl")
+
+# # Define the class names
+# class_names = [
+#     'Aphids',
+#     'Botrytis',
+#     'Dehydration',
+#     'Healthy',
+#     'Leaf Miners',
+#     'Nitrogen Deficiency',
+#     'Nutrient Burn',
+#     'Overwatering',
+#     'PH Fluctuation',
+#     'Phosphorus Deficiency',
+#     'Potassium Deficiency',
+#     'Powdery Mildew',
+#     'Septoria']
+
+# # Load the image
+# img = load_img("data/test/Septoria/00_septoria_yellowleaf_test.jpg")
+
+# # Convert to FastAI's PILImage format
+# img = PILImage.create(img)
+
+# # Get the model predictions
+# pred_class, pred_idx, outputs = model.predict(img)
+
+# # Print the outputs for debugging
+# print(f"Outputs: {outputs}")
+
+# # Show the top 3 predicted labels
+# top_n = 3 
+# sorted_indices = np.argsort(outputs)[-1:-top_n-1:-1]
+
+# print(f"The top {top_n} possible diagnoses are:")
+# for i in sorted_indices:
+#     print(f"{class_names[i]}: {outputs[i]:.2f} probability")
